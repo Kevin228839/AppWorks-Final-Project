@@ -19,7 +19,6 @@ const signUP = async (req, res, next) => {
       return;
     }
   } catch (err) {
-    console.error('Error while signing up', err.message);
     next(err);
   };
 };

@@ -8,13 +8,8 @@ const mysqlEnv = {
   database: process.env.database
 };
 
-async function query (sql, params) {
-  const connection = await mysql.createConnection(mysqlEnv);
-  const [results] = await connection.execute(sql, params);
-  connection.end();
-  return results;
-}
+const pool = mysql.createPool(mysqlEnv);
 
 module.exports = {
-  query
+  pool
 };

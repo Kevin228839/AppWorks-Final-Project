@@ -74,7 +74,7 @@ const Signup = () => {
         alert('The email has been used');
         window.location.href = '/signup';
       } else {
-        alert('Wrong email format');
+        alert('db crash');
         window.location.href = '/signup';
       }
     });
