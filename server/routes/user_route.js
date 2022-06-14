@@ -10,3 +10,5 @@ router.post('/api/v1/signin', UserController.signIn);
 
 // User profile api
 router.get('/api/v1/profile', UserController.getProfile);
+
+module.exports = router;
