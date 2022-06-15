@@ -5,9 +5,9 @@ import facebook from '../../images/facebook.png';
 
 // Below are styled components
 const Container = styled.div`
+background-color:black;
 position: fixed;
 bottom: 0;
-background-color:black;
 display:flex;
 justify-content:space-around;
 width:100%;

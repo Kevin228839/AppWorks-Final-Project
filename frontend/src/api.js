@@ -17,6 +17,14 @@ const api = {
         'Content-Type': 'application/json'
       })
     });
+  },
+  getProfile (Jwt) {
+    return fetch(`http://${this.hostname}/api/v1/profile`, {
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${Jwt}`
+      })
+    });
   }
 };
 
