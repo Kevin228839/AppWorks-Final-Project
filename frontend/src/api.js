@@ -25,6 +25,19 @@ const api = {
         Authorization: `Bearer ${Jwt}`
       })
     });
+  },
+  postDiscussionContent (Jwt, content) {
+    return fetch(`http://${this.hostname}/api/v1/discussion`, {
+      method: 'POST',
+      body: JSON.stringify({ content }),
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${Jwt}`
+      })
+    });
+  },
+  getDiscussionContent (page) {
+    return fetch(`http://${this.hostname}/api/v1/discussion?paging=${page}`);
   }
 };
 

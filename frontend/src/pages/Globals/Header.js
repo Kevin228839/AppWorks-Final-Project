@@ -49,7 +49,12 @@ const Header = () => {
         <Title>哥9菜</Title>
       </StyledLink>
       <Main>
-        <Item>討論串</Item>
+        <StyledLink to="/discussion">
+          <Item>討論串</Item>
+        </StyledLink>
+        <Item>市場行情</Item>
+        <Item>回測</Item>
+        <Item>我的收藏</Item>
       </Main>
       <StyledLink to="/member">
         <Img src={member}/>

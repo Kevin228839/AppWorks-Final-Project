@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { pool } = require('./mysqlcon');
 
 // for user signup api
-async function signUp (requestBody) {
+const signUp = async (requestBody) => {
   const conn = await pool.getConnection();
   try {
     await conn.query('START TRANSACTION');
@@ -40,17 +40,16 @@ async function signUp (requestBody) {
   } finally {
     await conn.release();
   }
-}
+};
 
 // for user signin api
-async function signIn (requestBody) {
+const signIn = async (requestBody) => {
   const conn = await pool.getConnection();
   try {
     await conn.query('START TRANSACTION');
     const [rows] = await conn.query(
       'SELECT user_id, name, email, password, salt FROM user_profile WHERE email = ?', [requestBody.email]
     );
-    console.log(rows);
     // check if the email is registed
     if (rows.length === 0) {
       await conn.query('COMMIT');
@@ -74,7 +73,7 @@ async function signIn (requestBody) {
   } finally {
     await conn.release();
   }
-}
+};
 
 module.exports = {
   signUp,
