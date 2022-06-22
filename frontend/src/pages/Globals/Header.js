@@ -53,7 +53,9 @@ const Header = () => {
           <Item>討論串</Item>
         </StyledLink>
         <Item>市場行情</Item>
+        <StyledLink to="/backtest">
         <Item>回測</Item>
+         </StyledLink>
         <Item>我的收藏</Item>
       </Main>
       <StyledLink to="/member">

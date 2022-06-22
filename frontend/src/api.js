@@ -38,6 +38,9 @@ const api = {
   },
   getDiscussionContent (page) {
     return fetch(`http://${this.hostname}/api/v1/discussion?paging=${page}`);
+  },
+  getStockData (stockNumber) {
+    return fetch(`http://${this.hostname}/api/v1/backtest/stockdata?stockNo=${stockNumber}`);
   }
 };
 

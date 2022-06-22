@@ -17,11 +17,11 @@ const postContent = async (userId, text) => {
 const getContent = async (page) => {
   const conn = await pool.getConnection();
   try {
-    const itemPerPage = 2;
+    const itemPerPage = 3;
     const offset = page * itemPerPage;
     let nextPage;
-    const [res] = await conn.query('SELECT user_profile.name, discussion.context FROM discussion INNER JOIN user_profile ON discussion.user_id=user_profile.user_id ORDER BY post_id DESC LIMIT ?, ?', [offset, 2]);
-    const [next] = await conn.query('SELECT user_profile.name, discussion.context FROM discussion INNER JOIN user_profile ON discussion.user_id=user_profile.user_id ORDER BY post_id DESC LIMIT ?, ?', [offset + itemPerPage, 2]);
+    const [res] = await conn.query('SELECT user_profile.name, discussion.context FROM discussion INNER JOIN user_profile ON discussion.user_id=user_profile.user_id ORDER BY post_id DESC LIMIT ?, ?', [offset, itemPerPage]);
+    const [next] = await conn.query('SELECT user_profile.name, discussion.context FROM discussion INNER JOIN user_profile ON discussion.user_id=user_profile.user_id ORDER BY post_id DESC LIMIT ?, ?', [offset + itemPerPage, itemPerPage]);
     if (next.length !== 0) {
       nextPage = parseInt(page) + 1;
     } else {

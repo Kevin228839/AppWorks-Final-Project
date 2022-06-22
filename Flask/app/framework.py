@@ -1,5 +1,5 @@
 import pandas as pd
 
-def loadData():
-  df=pd.read_csv("2731.csv")
+def loadData(stockNumber):
+  df=pd.read_csv(f'{stockNumber}.csv')
   return df
