@@ -1,9 +1,11 @@
 from numpy import roll
 import app.Volume.strategy as volumestrategy
 import app.framework as fw
+from flask import request
 
 def volumeCal():
-  stock = fw.loadData()
+  stockNumber = request.json['stockNo']
+  stock = fw.loadData(stockNumber)
   rollingDay=5
   shiftDay=10
   stock = volumestrategy.volume(rollingDay,shiftDay,stock)

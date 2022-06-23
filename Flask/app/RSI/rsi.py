@@ -1,8 +1,10 @@
 import app.RSI.strategy as rsistrategy
 import app.framework as fw
+from flask import request
 
 def rsiCal():
-  stock = fw.loadData()
+  stockNumber = request.json['stockNo']
+  stock = fw.loadData(stockNumber)
   day=10
   high=70
   low=30

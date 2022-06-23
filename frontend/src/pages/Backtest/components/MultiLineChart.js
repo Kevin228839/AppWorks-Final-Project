@@ -6,13 +6,14 @@ import styled from 'styled-components';
 const ChartName = styled.div`
 margin-top:50px;`;
 
-const MultiLineChart = (stock) => {
+const MultiLineChart = (prop) => {
   const [data, setData] = useState([]);
+
   const fetchData = async () => {
-    const stockNumber = stock.stockNumber;
+    const stockNumber = prop.stockNumber;
     const response1 = await api.getStockData(stockNumber);
     const responseJson1 = await response1.json();
-    const response2 = await api.getStockData(2330);
+    const response2 = await api.getStockData(9999);
     const responseJson2 = await response2.json();
     const ARList1 = Object.values(responseJson1.AR);
     const ARList2 = Object.values(responseJson2.AR);
@@ -73,7 +74,7 @@ const MultiLineChart = (stock) => {
 
   return (
     <>
-      <ChartName>Accumulative Return Comparison</ChartName>
+      <ChartName>Accumulative Return vs TAIEX (%)</ChartName>
       <div id="timeSeriesMultiple"></div>
     </>
   );

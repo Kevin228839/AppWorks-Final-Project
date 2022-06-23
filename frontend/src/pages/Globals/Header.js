@@ -10,10 +10,12 @@ align-items:center;
 border-bottom: solid 1px #E0E0E0`;
 
 const Title = styled.div`
+width:200px;
 font-size:50px;
 font-style:oblique;`;
 
 const Img = styled.img`
+margin-left:150px;
 width:50px;
 height:50px;`;
 
@@ -38,7 +40,11 @@ align-items:center;
 border-radius:5px;
 border:black solid;
 width:80px;
-height:40px;`;
+height:40px;
+&:hover{
+  color:white;
+  background-color:black
+}`;
 
 // Header Component
 const Header = () => {

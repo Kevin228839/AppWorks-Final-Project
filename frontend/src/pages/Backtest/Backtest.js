@@ -2,6 +2,8 @@ import PriceChart from './components/PriceChart';
 import MultiLineChart from './components/MultiLineChart';
 import VolumeChart from './components/VolumeChart';
 import Load from '../Globals/Loading';
+import Fundamental from './components/Fundamental';
+import StrategySignalChart from './components/StrategySignalChart';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 
@@ -20,9 +22,15 @@ const SearchButton = styled.button`
 border: 1px solid #BEBEBE;
 border-radius:5px;`;
 
-const FlexRow = styled.div`
+const FlexRowAlignLeft = styled.div`
 display:flex;
 justify-content:left;
+align-items:center;
+margin:20px;`;
+
+const FlexRowAlignCenter = styled.div`
+display:flex;
+justify-content:center;
 align-items:center;
 margin:20px;`;
 
@@ -42,18 +50,21 @@ const Backtest = () => {
     localStorage.setItem('StockBacktest', JSON.stringify(stockNumber));
     window.location.href = '/backtest';
   };
-  console.log(stock);
   if (stock === null) {
     return <Load />;
   }
   return (
     <>
-    <FlexRow>
+    <FlexRowAlignLeft>
       <SearchCaption>股票代號:</SearchCaption>
       <SearchInput id="input"/>
       <SearchButton onClick={() => { handleChange(); }}>送出</SearchButton>
-    </FlexRow>
+    </FlexRowAlignLeft>
+    <FlexRowAlignCenter>
+      <Fundamental stockNumber={stock}/>
+    </FlexRowAlignCenter>
     <FlexColumn>
+      <StrategySignalChart stockNumber={stock}/>
       <PriceChart stockNumber={stock}/>
       <VolumeChart stockNumber={stock}/>
       <MultiLineChart stockNumber={stock}/>

@@ -41,6 +41,12 @@ const api = {
   },
   getStockData (stockNumber) {
     return fetch(`http://${this.hostname}/api/v1/backtest/stockdata?stockNo=${stockNumber}`);
+  },
+  getFundamental (stockNumber) {
+    return fetch(`http://${this.hostname}/api/v1/backtest/fundamental?stockNo=${stockNumber}`);
+  },
+  getBacktest (stockNumber, strategy) {
+    return fetch(`http://${this.hostname}/api/v1/backtest/technical?stockNo=${stockNumber}&strategy=${strategy}`);
   }
 };
 

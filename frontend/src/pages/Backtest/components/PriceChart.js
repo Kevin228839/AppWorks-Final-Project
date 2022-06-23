@@ -6,7 +6,7 @@ import styled from 'styled-components';
 const ChartName = styled.div`
 margin-top:50px;`;
 
-const PriceChart = (stock) => {
+const PriceChart = (prop) => {
   const [data, setData] = useState([]);
   useEffect(() => {
     if (data.length === 0) {
@@ -17,7 +17,7 @@ const PriceChart = (stock) => {
   }, [data]);
 
   const fetchData = async () => {
-    const stockNumber = stock.stockNumber;
+    const stockNumber = prop.stockNumber;
     const response = await api.getStockData(stockNumber);
     const responseJson = await response.json();
     const priceList = Object.values(responseJson.Close);
