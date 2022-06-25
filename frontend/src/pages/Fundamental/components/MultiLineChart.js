@@ -4,7 +4,21 @@ import api from '../../../api';
 import styled from 'styled-components';
 
 const ChartName = styled.div`
+display:flex;
+align-items:center;
 margin-top:50px;`;
+
+const RedColor = styled.div`
+margin:5px;
+background-color:red;
+width:10px;
+height:10px;`;
+
+const BlueColor = styled.div`
+margin:5px;
+background-color:blue;
+width:10px;
+height:10px;`;
 
 const MultiLineChart = (prop) => {
   const [data, setData] = useState([]);
@@ -74,7 +88,10 @@ const MultiLineChart = (prop) => {
 
   return (
     <>
-      <ChartName>Accumulative Return vs TAIEX (%)</ChartName>
+      <ChartName>
+        <div>Stock Accumulative Return(%) </div> <BlueColor/>
+        <div> vs TAIEX Accumulative Return(%)</div> <RedColor/>
+      </ChartName>
       <div id="timeSeriesMultiple"></div>
     </>
   );

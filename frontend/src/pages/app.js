@@ -5,7 +5,8 @@ import Signin from '../pages/Signin/Signin';
 import Member from './Globals/Member';
 import Home from '../pages/Home/Home';
 import Discussion from '../pages/Discussion/Discussion';
-import Backtest from '../pages/Backtest/Backtest';
+import Fundamental from './Fundamental/Fundamental';
+import Backtest from './Backtest/Backtest';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
       <Route path="/signin" element={<Signin />} />
       <Route path="/member" element={<Member />} />
       <Route path="/discussion" element={<Discussion />} />
+      <Route path="/fundamental" element={<Fundamental />} />
       <Route path="/backtest" element={<Backtest />} />
     </Routes>
     </>

@@ -1,9 +1,7 @@
-import TradingViewPlot from './components/TradingViewPlot';
-
 const Home = () => {
   return (
     <>
-      <TradingViewPlot />
+      <h1>Welcome Home</h1>
     </>
   );
 };

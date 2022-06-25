@@ -45,8 +45,17 @@ const api = {
   getFundamental (stockNumber) {
     return fetch(`http://${this.hostname}/api/v1/backtest/fundamental?stockNo=${stockNumber}`);
   },
-  getBacktest (stockNumber, strategy) {
-    return fetch(`http://${this.hostname}/api/v1/backtest/technical?stockNo=${stockNumber}&strategy=${strategy}`);
+  getBacktest (stockNumber, strategy, strategyArgs) {
+    return fetch(`http://${this.hostname}/api/v1/backtest/technical?stockNo=${stockNumber}&strategy=${strategy}`, {
+      method: 'POST',
+      body: JSON.stringify({ strategyArgs }),
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      })
+    });
+  },
+  getStrategyArgs (strategy) {
+    return fetch(`http://${this.hostname}/api/v1/backtest/getstrategyargs?strategy=${strategy}`);
   }
 };
 

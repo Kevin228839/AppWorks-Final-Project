@@ -1,8 +1,8 @@
 import * as d3 from 'd3';
 import { useEffect, useState } from 'react';
-import api from '../../../api';
 import styled from 'styled-components';
 import Load from '../../Globals/Loading';
+import api from '../../../api';
 
 const ChartName = styled.div`
 margin-top:50px;`;
@@ -31,7 +31,13 @@ const StrategySignalChart = (prop) => {
   const fetchData = async () => {
     // get & set data for svg drawing
     const stockNumber = prop.stockNumber;
-    const response = await api.getBacktest(stockNumber, 'volume');
+    const strategy = prop.strategy;
+    let strategyArgs = prop.strategyArgs;
+    if (strategyArgs === null) {
+      console.log(strategyArgs);
+      strategyArgs = {};
+    }
+    const response = await api.getBacktest(stockNumber, strategy, strategyArgs);
     const responseJson = await response.json();
     const priceList = Object.values(responseJson.Close);
     const dateList = Object.values(responseJson.Date);
@@ -48,11 +54,9 @@ const StrategySignalChart = (prop) => {
     const margin = { top: 10, right: 60, bottom: 30, left: 60 };
     const width = window.innerWidth - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
-    const shift = 5;
+    const shift = 8;
     setSigaldata({ maxPrice, dataLength, priceList, signList, margin, width, height, shift });
   };
-  console.log(signaldata);
-
   const draw = () => {
     const margin = { top: 10, right: 60, bottom: 30, left: 60 };
     const width = window.innerWidth - margin.left - margin.right;
@@ -107,7 +111,7 @@ const StrategySignalChart = (prop) => {
           top={signaldata.height * (signaldata.maxPrice - signaldata.priceList[index]) / signaldata.maxPrice + signaldata.margin.top - signaldata.shift + 'px'}>
           </Signal>;
         }
-        return <></>;
+        return <div key={index}></div>;
       })}
       </Chart>
     </>

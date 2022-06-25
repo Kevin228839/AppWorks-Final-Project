@@ -58,11 +58,12 @@ const Header = () => {
         <StyledLink to="/discussion">
           <Item>討論串</Item>
         </StyledLink>
-        <Item>市場行情</Item>
+        <StyledLink to="/fundamental">
+          <Item>基本面</Item>
+        </StyledLink>
         <StyledLink to="/backtest">
-        <Item>回測</Item>
-         </StyledLink>
-        <Item>我的收藏</Item>
+          <Item>策略回測</Item>
+        </StyledLink>
       </Main>
       <StyledLink to="/member">
         <Img src={member}/>

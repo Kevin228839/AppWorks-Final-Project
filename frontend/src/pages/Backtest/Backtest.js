@@ -1,11 +1,9 @@
-import PriceChart from './components/PriceChart';
-import MultiLineChart from './components/MultiLineChart';
-import VolumeChart from './components/VolumeChart';
-import Load from '../Globals/Loading';
-import Fundamental from './components/Fundamental';
-import StrategySignalChart from './components/StrategySignalChart';
-import styled from 'styled-components';
 import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import Load from '../Globals/Loading';
+import StrategySignalChart from './Components/StrategySignalChart';
+import BacktestInfo from './Components/BacktestInfo';
+import StrategyArgs from './Components/StrategyArgs';
 
 const SearchCaption = styled.div`
 font-size:20px;`;
@@ -41,33 +39,49 @@ align-items:center;`;
 
 const Backtest = () => {
   const [stock, setStock] = useState(null);
+  const [strategy, setStrategy] = useState(null);
+  const [strategyArgs, setStrategyArgs] = useState(null);
+
   useEffect(() => {
     const stockNumber = localStorage.getItem('StockBacktest') ? JSON.parse(localStorage.getItem('StockBacktest')) : '2330';
     setStock(stockNumber);
+    const strategyKind = localStorage.getItem('StrategyBacktest') ? JSON.parse(localStorage.getItem('StrategyBacktest')) : 'ma';
+    setStrategy(strategyKind);
+    const strategyKindArgs = localStorage.getItem('StrategyArgsBacktest') ? JSON.parse(localStorage.getItem('StrategyArgsBacktest')) : null;
+    setStrategyArgs(strategyKindArgs);
   }, []);
-  const handleChange = () => {
-    const stockNumber = document.getElementById('input').value;
+  const handleStockChange = () => {
+    const stockNumber = document.getElementById('stockinput').value;
     localStorage.setItem('StockBacktest', JSON.stringify(stockNumber));
     window.location.href = '/backtest';
   };
-  if (stock === null) {
+  const handleStrategyChange = () => {
+    const stockNumber = document.getElementById('strategyinput').value;
+    localStorage.setItem('StrategyBacktest', JSON.stringify(stockNumber));
+    localStorage.removeItem('StrategyArgsBacktest');
+    window.location.href = '/backtest';
+  };
+  if (stock === null || strategy === null) {
     return <Load />;
   }
   return (
     <>
     <FlexRowAlignLeft>
-      <SearchCaption>股票代號:</SearchCaption>
-      <SearchInput id="input"/>
-      <SearchButton onClick={() => { handleChange(); }}>送出</SearchButton>
+      <SearchCaption>股票:</SearchCaption>
+      <SearchInput id="stockinput"/>
+      <SearchButton onClick={() => { handleStockChange(); }}>送出</SearchButton>
     </FlexRowAlignLeft>
+    <FlexRowAlignLeft>
+      <SearchCaption>策略:</SearchCaption>
+      <SearchInput id="strategyinput"/>
+      <SearchButton onClick={() => { handleStrategyChange(); }}>送出</SearchButton>
+    </FlexRowAlignLeft>
+    <StrategyArgs strategy={strategy} strategyArgs={strategyArgs}/>
     <FlexRowAlignCenter>
-      <Fundamental stockNumber={stock}/>
+      <BacktestInfo stockNumber={stock} strategy={strategy}/>
     </FlexRowAlignCenter>
     <FlexColumn>
-      <StrategySignalChart stockNumber={stock}/>
-      <PriceChart stockNumber={stock}/>
-      <VolumeChart stockNumber={stock}/>
-      <MultiLineChart stockNumber={stock}/>
+      <StrategySignalChart stockNumber={stock} strategy={strategy} strategyArgs={strategyArgs}/>
     </FlexColumn>
     </>
   );

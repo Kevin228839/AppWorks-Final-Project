@@ -22,7 +22,7 @@ margin:10px;`;
 const Number = styled.div`
 font-size: 20px;`;
 
-const Fundamental = (stock) => {
+const FundamentalInfo = (stock) => {
   const [data, setData] = useState(null);
   useEffect(() => {
     fetchData();
@@ -36,23 +36,27 @@ const Fundamental = (stock) => {
   if (data === null) {
     return <Load />;
   }
-
+  console.log(data);
   return (
     <>
     <Circle>
-      <Caption>Min:</Caption>
+      <Caption>Stock:</Caption>
+      <Number>{stock.stockNumber}</Number>
+    </Circle>
+    <Circle>
+      <Caption>Min Price:</Caption>
       <Number>{Math.round(data.min)}</Number>
     </Circle>
     <Circle>
-    <Caption>Mean:</Caption>
+    <Caption>Mean Price:</Caption>
       <Number>{Math.round(data.mean)}</Number>
     </Circle>
     <Circle>
-      <Caption>Max:</Caption>
+      <Caption>Max Price:</Caption>
       <Number>{Math.round(data.max)}</Number>
     </Circle>
     </>
   );
 };
 
-export default Fundamental;
+export default FundamentalInfo;
