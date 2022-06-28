@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Load from '../Globals/Loading';
-import StrategySignalChart from './Components/StrategySignalChart';
-import BacktestInfo from './Components/BacktestInfo';
-import StrategyArgs from './Components/StrategyArgs';
+import StrategySignalChart from './components/StrategySignalChart';
+import BacktestInfo from './components/BacktestInfo';
+import StrategyArgs from './components/StrategyArgs';
 
 const SearchCaption = styled.div`
 font-size:20px;`;

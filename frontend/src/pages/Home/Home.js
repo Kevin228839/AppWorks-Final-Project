@@ -1,8 +1,8 @@
+import CustomizeSignal from './CustomizeSignal/CustomizeSignal';
+
 const Home = () => {
   return (
-    <>
-      <h1>Welcome Home</h1>
-    </>
+      <CustomizeSignal />
   );
 };
 

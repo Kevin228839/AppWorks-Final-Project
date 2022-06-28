@@ -56,6 +56,12 @@ const api = {
   },
   getStrategyArgs (strategy) {
     return fetch(`http://${this.hostname}/api/v1/backtest/getstrategyargs?strategy=${strategy}`);
+  },
+  getAllStrategy () {
+    return fetch(`http://${this.hostname}/api/v1/backtest/getallstrategy`);
+  },
+  getAllMask () {
+    return fetch(`http://${this.hostname}/api/v1/backtest/getallmask`);
   }
 };
 

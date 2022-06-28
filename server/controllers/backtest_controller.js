@@ -66,9 +66,55 @@ const getStrategyArgs = async (req, res, next) => {
   }
 };
 
+const getMaskResult = async (req, res, next) => {
+  try {
+    const stockNo = req.query.stockNo;
+    const kind = 'date';
+    const threshold = '2019/07/05';
+    const situation = 'less';
+    const response = await axios({
+      method: 'get',
+      url: 'http://localhost:5000/api/v1/mask',
+      data: { stockNo, kind, threshold, situation },
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const data = response.data;
+    res.status(200).json(data);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
+const getAllStrategy = async (req, res, next) => {
+  try {
+    const response = await backtestModel.getAllStrategy();
+    for (let i = 0; i < response.length; i++) {
+      response[i].strategy_args = JSON.parse(response[i].strategy_args).split(',');
+    }
+    res.status(200).json(response);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
+const getAllMask = async (req, res, next) => {
+  try {
+    const response = await backtestModel.getAllMask();
+    res.status(200).json(response);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  };
+};
+
 module.exports = {
   getBacktestResult,
   getStockData,
   getFundamental,
-  getStrategyArgs
+  getStrategyArgs,
+  getMaskResult,
+  getAllStrategy,
+  getAllMask
 };
