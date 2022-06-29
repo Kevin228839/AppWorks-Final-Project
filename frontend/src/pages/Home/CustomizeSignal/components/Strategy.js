@@ -14,7 +14,7 @@ margin:10px;
 background-color:#0080FF;
 font-size:45px;`;
 
-const Strategy = ({ strategy }) => {
+const Strategy = ({ strategy, boardStrategy }) => {
   const strategyName = strategy.strategy_name;
   const kind = strategy.kind;
   const strategyArgs = strategy.strategy_args;

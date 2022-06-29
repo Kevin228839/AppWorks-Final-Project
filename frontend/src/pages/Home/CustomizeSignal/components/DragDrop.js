@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Strategy from './Strategy';
 import Mask from './Mask';
-import StrategyInBoard from './StrategyInBoard';
-import MaskInBoard from './MaskInBoard';
-import { useDrop } from 'react-dnd';
+import Box from './Box';
 
 const FlexHorizontal = styled.div`
 display:flex;`;
@@ -37,41 +35,17 @@ width:500px;
 border: solid 2px red;
 border-radius:25px;`;
 
-const Board = styled.div`
-display:flex;
-flex-direction:column;
-align-items:center;
-margin:20px;
-height:500px;
-width:500px;
-border-radius:25px;
-border: solid 2px black;`;
-
 const DragDrop = ({ StrategyList, MaskList }) => {
-  const [boardStrategy, setBoardStrategy] = useState([]);
-  const [boardMask, setBoardMask] = useState([]);
-
-  const [, drop] = useDrop(() => ({
-    accept: ['strategy', 'mask'],
-    drop: (item) => addToBoard(item)
-  }));
-  const addToBoard = (item) => {
-    if (item.kind === 'strategy') {
-      const addResult = StrategyList.filter((strategy) => strategy.strategy_name === item.strategyName);
-      setBoardStrategy((board) => [...board, addResult[0]]);
-    } else {
-      const addResult = MaskList.filter((mask) => mask.mask_name === item.maskName);
-      setBoardMask((board) => [...board, addResult[0]]);
-    }
-  };
-
+  const [boardStrategy, setBoardStrategy] = useState([[], []]);
+  const [boardMask, setBoardMask] = useState([[], []]);
+  console.log(boardStrategy);
   return (
     <>
     <FlexHorizontal>
       <Wrap>
         <StrategyBlock>
           {StrategyList.map((strategy, index) => {
-            return <Strategy key={index} strategy={strategy}/>;
+            return <Strategy key={index} strategy={strategy} boardStrategy={boardStrategy}/>;
           })}
         </StrategyBlock>
         <MaskBlock>
@@ -81,14 +55,12 @@ const DragDrop = ({ StrategyList, MaskList }) => {
         </MaskBlock>
       </Wrap>
       <Wrap>
-        <Board ref={drop}>
-          {boardStrategy.map((strategy, index) => {
-            return <StrategyInBoard key={index} strategy={strategy}/>;
-          })}
-          {boardMask.map((mask, index) => {
-            return <MaskInBoard key={index} mask={mask}/>;
-          })}
-        </Board>
+        {boardStrategy.map((item, index) => {
+          return <Box key={index} StrategyList={StrategyList} MaskList={MaskList}
+          boardStrategy={boardStrategy} setBoardStrategy={setBoardStrategy}
+          boardMask={boardMask} setBoardMask={setBoardMask} blockId={index}
+          />;
+        })}
       </Wrap>
       </FlexHorizontal>
     </>

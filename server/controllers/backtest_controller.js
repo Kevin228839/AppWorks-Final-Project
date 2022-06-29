@@ -102,6 +102,9 @@ const getAllStrategy = async (req, res, next) => {
 const getAllMask = async (req, res, next) => {
   try {
     const response = await backtestModel.getAllMask();
+    for (let i = 0; i < response.length; i++) {
+      response[i].mask_args = JSON.parse(response[i].mask_args).split(',');
+    }
     res.status(200).json(response);
   } catch (err) {
     console.log(err);
