@@ -34,9 +34,9 @@ const StrategySignalChart = (prop) => {
     const strategy = prop.strategy;
     let strategyArgs = prop.strategyArgs;
     if (strategyArgs === null) {
-      console.log(strategyArgs);
       strategyArgs = {};
     }
+    console.log(strategyArgs);
     const response = await api.getBacktest(stockNumber, strategy, strategyArgs);
     const responseJson = await response.json();
     const priceList = Object.values(responseJson.Close);

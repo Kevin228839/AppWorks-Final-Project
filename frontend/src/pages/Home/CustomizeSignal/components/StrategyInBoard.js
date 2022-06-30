@@ -107,10 +107,8 @@ const StrategyInBoard = ({ strategy, id, blockId, boardStrategy, setBoardStrateg
     argsSettingButton.style.display = 'block';
     const setConfirm = document.getElementById(`strategySetConfirm${blockId}${id}`);
     setConfirm.style.display = 'none';
-    for (let i = 0; i < strategyArgsName.length; i++) {
-      const argsInput = document.getElementById(`strategy${strategyArgsName[i]}Input${blockId}${id}`);
-      argsInput.style.display = 'none';
-    }
+    const argsInputBox = document.getElementById(`strategyArgsInputDiv${blockId}${id}`);
+    argsInputBox.style.display = 'none';
   };
 
   const handleDelete = () => {

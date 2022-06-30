@@ -69,9 +69,9 @@ const getStrategyArgs = async (req, res, next) => {
 const getMaskResult = async (req, res, next) => {
   try {
     const stockNo = req.query.stockNo;
-    const kind = 'date';
-    const threshold = '2019/07/05';
-    const situation = 'less';
+    const kind = req.query.kind;
+    const threshold = req.query.threshold;
+    const situation = req.query.situation;
     const response = await axios({
       method: 'get',
       url: 'http://localhost:5000/api/v1/mask',

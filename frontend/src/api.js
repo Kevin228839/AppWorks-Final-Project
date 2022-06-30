@@ -62,6 +62,9 @@ const api = {
   },
   getAllMask () {
     return fetch(`http://${this.hostname}/api/v1/backtest/getallmask`);
+  },
+  getMaskResult (stockNo, maskName, situation, threshold) {
+    return fetch(`http://${this.hostname}/api/v1/backtest/getmask?stockNo=${stockNo}&kind=${maskName}&situation=${situation}&threshold=${threshold}`);
   }
 };
 
