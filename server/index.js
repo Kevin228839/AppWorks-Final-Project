@@ -16,8 +16,9 @@ app.use('/', discussionRouter);
 app.use('/', backtestRouter);
 
 // for frontend url (after react build)
+app.use(express.static(path.join(__dirname, '../frontend/build')));
 app.use('/', function (_req, res, next) {
-  res.sendFile(path.join(__dirname, '../frontend/build/index.html'), function (err) {
+  res.sendFile(path.join(__dirname, './build/index.html'), function (err) {
     if (err) {
       res.status(500).send(err);
       next(err);
