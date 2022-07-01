@@ -6,13 +6,15 @@ import Box from './Box';
 import api from '../../../../api';
 
 const FlexHorizontal = styled.div`
-display:flex;`;
+display:flex;
+flex-direction:column;
+justify-contenr:center;
+align-items:center;`;
 
 const Wrap = styled.div`
 display:flex;
-flex-direction:column;
-align-items:center;
-width:50%;`;
+justify-content:center;
+align-items:center;`;
 
 const StrategyBlock = styled.div`
 display:flex;
@@ -37,7 +39,7 @@ border: solid 2px red;
 border-radius:25px;`;
 
 const GetResultButton = styled.button`
-width: 100px;
+width:100px;
 height:100px;
 background-color:black;
 color:white;`;
@@ -45,7 +47,6 @@ color:white;`;
 const DragDrop = ({ StrategyList, MaskList }) => {
   const [boardStrategy, setBoardStrategy] = useState([[], []]);
   const [boardMask, setBoardMask] = useState([[], []]);
-  console.log(boardMask);
   const handleGetStrategyResult = async () => {
     // get each strategy's signal
     const blockStrategyResultCombine = [];
@@ -90,7 +91,7 @@ const DragDrop = ({ StrategyList, MaskList }) => {
         allBlockFinalSignalStrategy.push(blockFinalSignal);
       }
     }
-    console.log(allBlockFinalSignalStrategy);
+    console.log('allBlockFinalSignalStrategy', allBlockFinalSignalStrategy);
     // get each mask's signal
     const blockMaskResultCombine = [];
     for (let i = 0; i < boardMask.length; i++) {
@@ -129,7 +130,51 @@ const DragDrop = ({ StrategyList, MaskList }) => {
         allBlockFinalSignalMask.push(maskFinalSignal);
       }
     }
-    console.log(allBlockFinalSignalMask);
+    console.log('allBlockFinalSignalMask', allBlockFinalSignalMask);
+    // calculate (mask + strategy) result for each box
+    const allBlockFinalSignalMaskPlusStrategy = [];
+    for (let i = 0; i < allBlockFinalSignalMask.length; i++) {
+      if (allBlockFinalSignalMask[i].length === 0) {
+        allBlockFinalSignalMaskPlusStrategy.push(allBlockFinalSignalStrategy[i]);
+      } else {
+        if (allBlockFinalSignalStrategy[i].length === 0) {
+          allBlockFinalSignalMaskPlusStrategy.push(allBlockFinalSignalStrategy[i]);
+        } else {
+          const maskPlusStrategyFinalSignal = [];
+          for (let j = 0; j < allBlockFinalSignalMask[i].length; j++) {
+            if (allBlockFinalSignalMask[i][j] === 0) {
+              maskPlusStrategyFinalSignal.push(0);
+            } else {
+              maskPlusStrategyFinalSignal.push(allBlockFinalSignalStrategy[i][j]);
+            }
+          }
+          allBlockFinalSignalMaskPlusStrategy.push(maskPlusStrategyFinalSignal);
+        }
+      }
+    }
+    console.log('allBlockFinalSignalMaskPlusStrategy', allBlockFinalSignalMaskPlusStrategy);
+    // remove empty item from allBlockFinalSignalMaskPlusStrategy
+    const removeEmpty = [];
+    for (let i = 0; i < allBlockFinalSignalMaskPlusStrategy.length; i++) {
+      if (allBlockFinalSignalMaskPlusStrategy[i].length !== 0) {
+        removeEmpty.push(allBlockFinalSignalMaskPlusStrategy[i]);
+      }
+    }
+    console.log('removeEmpty', removeEmpty);
+    // calculate final signal for drawing
+    if (removeEmpty.length === 0) {
+      alert('No Strategy found');
+      return;
+    }
+    const finalSignalForDrawing = [];
+    for (let j = 0; j < removeEmpty[0].length; j++) {
+      let aggregateSignal = 0;
+      for (let i = 0; i < removeEmpty.length; i++) {
+        aggregateSignal = aggregateSignal + removeEmpty[i][j];
+      }
+      finalSignalForDrawing.push(aggregateSignal);
+    }
+    console.log('finalSignalForDrawing', finalSignalForDrawing);
   };
   return (
     <>
@@ -148,14 +193,17 @@ const DragDrop = ({ StrategyList, MaskList }) => {
       </Wrap>
       <Wrap>
         {boardStrategy.map((item, index) => {
-          return <Box key={index} StrategyList={StrategyList} MaskList={MaskList}
+          return (
+            <>
+          <Box key={index} StrategyList={StrategyList} MaskList={MaskList}
           boardStrategy={boardStrategy} setBoardStrategy={setBoardStrategy}
           boardMask={boardMask} setBoardMask={setBoardMask} blockId={index}
-          />;
+          /> <div>+</div>
+          </>);
         })}
       </Wrap>
       <Wrap>
-      <GetResultButton onClick={() => { handleGetStrategyResult(); }}>submit</GetResultButton>
+        <GetResultButton onClick={() => { handleGetStrategyResult(); }}>submit</GetResultButton>
       </Wrap>
       </FlexHorizontal>
     </>

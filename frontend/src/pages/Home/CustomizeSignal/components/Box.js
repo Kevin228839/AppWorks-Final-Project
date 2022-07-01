@@ -8,9 +8,10 @@ const Board = styled.div`
 display:flex;
 flex-direction:column;
 align-items:center;
+background-color:#D0D0D0;
 margin:20px;
-height:500px;
-width:600px;
+height:400px;
+width:550px;
 border-radius:25px;
 border: solid 2px black;`;
 
