@@ -1,6 +1,7 @@
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import DragDrop from './components/DragDrop';
+import SignalChart from './components/SignalChart';
 import { useEffect, useState } from 'react';
 import Load from '../../Globals/Loading';
 import api from '../../../api';
@@ -8,6 +9,7 @@ import api from '../../../api';
 const CustomizeSignal = () => {
   const [StrategyList, setStrategyList] = useState(null);
   const [MaskList, setMaskList] = useState(null);
+  const [signal, setSignal] = useState(null);
   useEffect(() => {
     getStrategyList();
     getMaskList();
@@ -29,8 +31,9 @@ const CustomizeSignal = () => {
   return (
     <>
       <DndProvider backend={HTML5Backend}>
-        <DragDrop StrategyList={StrategyList} MaskList={MaskList}/>
+        <DragDrop StrategyList={StrategyList} MaskList={MaskList} setSignal={setSignal}/>
       </DndProvider>
+      <SignalChart signal={signal}/>
     </>
   );
 };

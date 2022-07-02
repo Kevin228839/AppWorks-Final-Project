@@ -88,7 +88,7 @@ height:30px;
 width:30px;
 margin:20px;`;
 
-const DragDrop = ({ StrategyList, MaskList }) => {
+const DragDrop = ({ StrategyList, MaskList, setSignal }) => {
   const [boardStrategy, setBoardStrategy] = useState([[]]);
   const [boardMask, setBoardMask] = useState([[]]);
   console.log(boardStrategy);
@@ -221,6 +221,7 @@ const DragDrop = ({ StrategyList, MaskList }) => {
       finalSignalForDrawing.push(aggregateSignal);
     }
     console.log('finalSignalForDrawing', finalSignalForDrawing);
+    setSignal(finalSignalForDrawing);
   };
   const AddBlockToBeginning = () => {
     if (boardStrategy.length === 3 || boardMask.length === 3) {
