@@ -1,72 +1,89 @@
 import React from 'react';
 import styled from 'styled-components';
 import _ from 'lodash';
+import trashbin from '../../../../images/trashbin.svg';
+import setting from '../../../../images/setting.svg';
+import check from '../../../../images/check.svg';
 
 const StrategyDiv = styled.div`
-border: 2px solid #0072E3;
+border: 2px solid #ACC8E5;
 border-radius:15px;
 display:flex;
-justify-content:space-between;
 align-items:center;
-width:500px;
+width:550px;
 height:60px;
 margin:10px;
-background-color:#0080FF;`;
+background-color:#ACC8E5;`;
 
 const StrategyName = styled.div`
+margin-left:20px;
 display:flex;
-justify-content:center;
+justify-content:left;
 align-items:center;
 height:60px;
-width:100px;
+width:160px;
 font-size:35px;`;
 
-const Trashbin = styled.div`
+const ArgsNameDiv = styled.div`
+display:flex;
+justify-content:left;
+align-items:center;
+width:300px;
+height:60px;`;
+
+const ArgsName = styled.div`
+width:100px;
+font-size:20px;`;
+
+const ArgSettingButton = styled.img`
+cursor:pointer;
 width:20px;
 height:20px;
-border:1px solid black`;
-
-const ArgsName = styled.label`
-border: 1px solid #FFB5B5;
-border-radius: 15px;
-font-size:25px;`;
-
-const ArgSettingButton = styled.div`
-width:20px;
-height:20px;
-border:1px solid red;`;
+margin-right:20px;`;
 
 const ArgsInputDiv = styled.div`
 display:none;
-justify-content:center;
+justify-content:left;
 align-items:center;
-background-color:#0080FF;
-width:200px;
-height:50px;`;
+width:300px;
+height:60px;`;
 
 const StyledInput = styled.input.attrs({
   type: 'text'
 })`
 text-align:center;
 border-radius:5px;
-border:2px solid #003D79;
+border:2px solid #456A91;
 height:30px;
-width:60px;
-margin:10px;
-background-color:#46A3FF;`;
+width:85px;
+margin-right:5px;
+background-color:#456A91;
+&:focus{
+  outline:none;
+}
+::placeholder{
+  color:#3C3C3C;
+}`;
 
-const StyledSetConfirm = styled.div`
-color:blue;
+const StyledSetConfirm = styled.img`
+cursor:pointer;
 display:none;
 width:20px;
 height:20px;
-border:1px solid blue;`;
+margin-right:20px;`;
+
+const Trashbin = styled.img`
+cursor:pointer;
+width:20px;
+height:20px;`;
 
 const StrategyInBoard = ({ strategy, id, blockId, boardStrategy, setBoardStrategy }) => {
   const strategyName = strategy.strategy_name;
   const strategyArgsName = strategy.strategy_args;
 
   const handleArgsSettingStart = () => {
+    const argsNameDiv = document.getElementById(`strategyArgsNameDiv${blockId}${id}`);
+    argsNameDiv.style.display = 'none';
     for (let i = 0; i < strategyArgsName.length; i++) {
       const argName = document.getElementById(`strategy${strategyArgsName[i]}Label${blockId}${id}`);
       argName.style.display = 'none';
@@ -109,6 +126,8 @@ const StrategyInBoard = ({ strategy, id, blockId, boardStrategy, setBoardStrateg
     setConfirm.style.display = 'none';
     const argsInputBox = document.getElementById(`strategyArgsInputDiv${blockId}${id}`);
     argsInputBox.style.display = 'none';
+    const argsNameDiv = document.getElementById(`strategyArgsNameDiv${blockId}${id}`);
+    argsNameDiv.style.display = 'flex';
   };
 
   const handleDelete = () => {
@@ -132,6 +151,7 @@ const StrategyInBoard = ({ strategy, id, blockId, boardStrategy, setBoardStrateg
       <StrategyName>
         {strategyName}
       </StrategyName>
+      <ArgsNameDiv id={'strategyArgsNameDiv' + blockId + id}>
       {strategyArgsName.map((argName, index) => {
         return (
           (strategy.args_input === undefined)
@@ -147,6 +167,7 @@ const StrategyInBoard = ({ strategy, id, blockId, boardStrategy, setBoardStrateg
           </div>
         );
       })}
+      </ArgsNameDiv>
       <ArgsInputDiv id={'strategyArgsInputDiv' + blockId + id}>
         {strategyArgsName.map((argName, index) => {
           return (
@@ -156,14 +177,10 @@ const StrategyInBoard = ({ strategy, id, blockId, boardStrategy, setBoardStrateg
           );
         })}
       </ArgsInputDiv>
-      <StyledSetConfirm id={'strategySetConfirm' + blockId + id} onClick={() => { handleArgsSettingEnd(); }}>
-        V
-      </StyledSetConfirm>
-      <ArgSettingButton onClick={() => { handleArgsSettingStart(); }} id={'strategyArgSettingButton' + blockId + id}>
+      <StyledSetConfirm src={check} id={'strategySetConfirm' + blockId + id} onClick={() => { handleArgsSettingEnd(); }} />
+      <ArgSettingButton src={setting} onClick={() => { handleArgsSettingStart(); }} id={'strategyArgSettingButton' + blockId + id}>
       </ArgSettingButton >
-      <Trashbin onClick={() => { handleDelete(); }}>
-        X
-      </Trashbin>
+      <Trashbin src={trashbin} onClick={() => { handleDelete(); }} />
     </StrategyDiv>
   );
 };

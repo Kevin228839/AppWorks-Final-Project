@@ -27,9 +27,11 @@ const CustomizeSignal = () => {
     return <Load />;
   }
   return (
-    <DndProvider backend={HTML5Backend}>
-      <DragDrop StrategyList={StrategyList} MaskList={MaskList}/>
-    </DndProvider>
+    <>
+      <DndProvider backend={HTML5Backend}>
+        <DragDrop StrategyList={StrategyList} MaskList={MaskList}/>
+      </DndProvider>
+    </>
   );
 };
 
