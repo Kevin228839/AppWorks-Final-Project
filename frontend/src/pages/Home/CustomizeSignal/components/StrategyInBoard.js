@@ -101,7 +101,12 @@ const StrategyInBoard = ({ strategy, id, blockId, boardStrategy, setBoardStrateg
     const strategyArgsInput = [];
     for (let i = 0; i < strategyArgsName.length; i++) {
       const argsValue = document.getElementById(`strategy${strategyArgsName[i]}Input${blockId}${id}`).value;
-      strategyArgsInput.push(argsValue);
+      if (!argsValue.match(/^\d+$/)) {
+        alert('策略參數格式錯誤，請確認策略參數為非負整數');
+        console.log(argsValue);
+        return;
+      }
+      strategyArgsInput.push(parseInt(argsValue).toString());
     }
     // save args input to boardStrategy
     const newBoardStrategy = _.cloneDeep(boardStrategy);

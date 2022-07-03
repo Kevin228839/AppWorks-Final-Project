@@ -54,10 +54,29 @@ background-color:#DD5252;
 border:2px; solid #DD5252;
 border-radius:5px;
 width:90px;
-height:30px;`;
+height:30px;
+&:focus{
+  outline:none;
+}`;
 
 const StyledInput = styled.input.attrs({
   type: 'text'
+})`
+text-align:center;
+border-radius:5px;
+border:2px solid #DD5252;
+height:30px;
+width:85px;
+background-color:#DD5252;
+&:focus{
+  outline:none;
+}
+::placeholder{
+  color:#3C3C3C;
+}`;
+
+const StyledInputDate = styled.input.attrs({
+  type: 'date'
 })`
 text-align:center;
 border-radius:5px;
@@ -107,7 +126,20 @@ const MaskInBoard = ({ mask, id, blockId, boardMask, setBoardMask }) => {
     // get args input
     const maskArgsInput = [];
     const situationValue = document.getElementById(`maskSituationSelect${blockId}${id}`).value;
-    const thresholdValue = document.getElementById(`maskThresholdInput${blockId}${id}`).value;
+    let thresholdValue = document.getElementById(`maskThresholdInput${blockId}${id}`).value;
+    if (mask.mask_name === 'date') {
+      if (thresholdValue === '') {
+        alert('條件參數格式錯誤:日期尚未選擇');
+        return;
+      }
+      thresholdValue = thresholdValue.replaceAll('-', '/');
+    } else {
+      if (!thresholdValue.match(/^-?\d+\.?\d*$/)) {
+        alert('條件參數格式錯誤');
+        return;
+      }
+      thresholdValue = parseFloat(thresholdValue).toString();
+    }
     maskArgsInput.push(situationValue);
     maskArgsInput.push(thresholdValue);
     // save args input to boardMask
@@ -170,7 +202,10 @@ const MaskInBoard = ({ mask, id, blockId, boardMask, setBoardMask }) => {
             <option value="less than">less than </option>
             <option value="greater than">greater than</option>
           </StyledSelect>
-          <StyledInput id={'maskThresholdInput' + blockId + id} placeholder={maskName}/>
+          {(mask.mask_name === 'date')
+            ? <StyledInputDate id={'maskThresholdInput' + blockId + id} placeholder={maskName}/>
+            : <StyledInput id={'maskThresholdInput' + blockId + id} placeholder={maskName}/>
+          }
         </ArgsInputDiv>
         <StyledSetConfirm src={check} id={'maskSetConfirm' + blockId + id} onClick={() => { handleArgsSettingEnd(); }} display={'block'}/>
         <Trashbin src={trashbin} onClick={() => { handleDelete(); }}/>
@@ -198,7 +233,10 @@ const MaskInBoard = ({ mask, id, blockId, boardMask, setBoardMask }) => {
             <option value="less than">less than </option>
             <option value="greater than">greater than</option>
           </StyledSelect>
-          <StyledInput id={'maskThresholdInput' + blockId + id} placeholder={maskName}/>
+          {(mask.mask_name === 'date')
+            ? <StyledInputDate id={'maskThresholdInput' + blockId + id} placeholder={maskName}/>
+            : <StyledInput id={'maskThresholdInput' + blockId + id} placeholder={maskName}/>
+          }
         </ArgsInputDiv>
         <StyledSetConfirm src={check} id={'maskSetConfirm' + blockId + id} onClick={() => { handleArgsSettingEnd(); }} display={'none'}/>
         <ArgSettingButton src={setting} onClick={() => { handleArgsSettingStart(); }} id={'maskArgSettingButton' + blockId + id}>

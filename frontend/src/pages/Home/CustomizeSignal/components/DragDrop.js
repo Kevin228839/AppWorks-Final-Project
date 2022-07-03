@@ -42,13 +42,15 @@ align-items:center;
 margin:20px;
 height:300px;
 width:500px;
-border: solid 2px #E77373;
+border: solid 2px #F7AFAF;
 border-radius:25px;`;
 
 const GetResultButton = styled.button`
+cursor:pointer;
 width:100px;
-height:100px;
+height:40px;
 background-color:black;
+border-radius:5px;
 color:white;`;
 
 const Img = styled.img`
@@ -94,6 +96,23 @@ const DragDrop = ({ StrategyList, MaskList, setSignal }) => {
   console.log(boardStrategy);
   console.log(boardMask);
   const handleGetStrategyResult = async () => {
+    // 確認參數是否填寫
+    for (let i = 0; i < boardStrategy.length; i++) {
+      for (let j = 0; j < boardStrategy[i].length; j++) {
+        if (boardStrategy[i][j].args_input === undefined) {
+          alert('策略參數尚未確認,填寫完請記得點選勾勾');
+          return;
+        }
+      }
+    }
+    for (let i = 0; i < boardMask.length; i++) {
+      for (let j = 0; j < boardMask[i].length; j++) {
+        if (boardMask[i][j].args_input === undefined) {
+          alert('條件參數尚未確認,填寫完請記得點選勾勾');
+          return;
+        }
+      }
+    }
     // get each strategy's signal
     const blockStrategyResultCombine = [];
     for (let i = 0; i < boardStrategy.length; i++) {
@@ -319,10 +338,8 @@ const DragDrop = ({ StrategyList, MaskList, setSignal }) => {
       </Wrap>
       <Wrap>
         <ImgShiftBlock src={shiftLeft} onClick={() => { shiftBlocksLeft(); }}/>
+        <GetResultButton onClick={() => { handleGetStrategyResult(); }}>產生訊號</GetResultButton>
         <ImgShiftBlock src={shiftRight} onClick={() => { shiftBlocksRight(); }}/>
-      </Wrap>
-      <Wrap>
-        <GetResultButton onClick={() => { handleGetStrategyResult(); }}>submit</GetResultButton>
       </Wrap>
       </FlexHorizontal>
     </>
