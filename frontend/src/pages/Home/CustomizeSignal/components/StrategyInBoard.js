@@ -42,7 +42,7 @@ height:20px;
 margin-right:20px;`;
 
 const ArgsInputDiv = styled.div`
-display:none;
+display:${props => props.display};
 justify-content:left;
 align-items:center;
 width:300px;
@@ -67,7 +67,7 @@ background-color:#456A91;
 
 const StyledSetConfirm = styled.img`
 cursor:pointer;
-display:none;
+display:${props => props.display};
 width:20px;
 height:20px;
 margin-right:20px;`;
@@ -116,18 +116,25 @@ const StrategyInBoard = ({ strategy, id, blockId, boardStrategy, setBoardStrateg
     }
     setBoardStrategy(newBoardStrategy);
     // 畫面切換
-    for (let i = 0; i < strategyArgsName.length; i++) {
-      const argName = document.getElementById(`strategy${strategyArgsName[i]}Label${blockId}${id}`);
-      argName.style.display = 'block';
+    if (document.getElementById(`strategyArgsNameDiv${blockId}${id}`) === null) {
+      const setConfirm = document.getElementById(`strategySetConfirm${blockId}${id}`);
+      setConfirm.style.display = 'none';
+      const argsInputBox = document.getElementById(`strategyArgsInputDiv${blockId}${id}`);
+      argsInputBox.style.display = 'none';
+    } else {
+      for (let i = 0; i < strategyArgsName.length; i++) {
+        const argName = document.getElementById(`strategy${strategyArgsName[i]}Label${blockId}${id}`);
+        argName.style.display = 'block';
+      }
+      const argsSettingButton = document.getElementById(`strategyArgSettingButton${blockId}${id}`);
+      argsSettingButton.style.display = 'block';
+      const setConfirm = document.getElementById(`strategySetConfirm${blockId}${id}`);
+      setConfirm.style.display = 'none';
+      const argsInputBox = document.getElementById(`strategyArgsInputDiv${blockId}${id}`);
+      argsInputBox.style.display = 'none';
+      const argsNameDiv = document.getElementById(`strategyArgsNameDiv${blockId}${id}`);
+      argsNameDiv.style.display = 'flex';
     }
-    const argsSettingButton = document.getElementById(`strategyArgSettingButton${blockId}${id}`);
-    argsSettingButton.style.display = 'block';
-    const setConfirm = document.getElementById(`strategySetConfirm${blockId}${id}`);
-    setConfirm.style.display = 'none';
-    const argsInputBox = document.getElementById(`strategyArgsInputDiv${blockId}${id}`);
-    argsInputBox.style.display = 'none';
-    const argsNameDiv = document.getElementById(`strategyArgsNameDiv${blockId}${id}`);
-    argsNameDiv.style.display = 'flex';
   };
 
   const handleDelete = () => {
@@ -146,43 +153,58 @@ const StrategyInBoard = ({ strategy, id, blockId, boardStrategy, setBoardStrateg
     setBoardStrategy(newBoardStrategy);
   };
 
-  return (
-    <StrategyDiv>
-      <StrategyName>
-        {strategyName}
-      </StrategyName>
-      <ArgsNameDiv id={'strategyArgsNameDiv' + blockId + id}>
-      {strategyArgsName.map((argName, index) => {
-        return (
-          (strategy.args_input === undefined)
-            ? <div key={index}>
-            <ArgsName id={'strategy' + argName + 'Label' + blockId + id} >
-              {argName}
-            </ArgsName>
-        </div>
-            : <div key={index}>
-            <ArgsName id={'strategy' + argName + 'Label' + blockId + id} >
-              {strategy.args_input[index]}
-            </ArgsName>
-          </div>
-        );
-      })}
-      </ArgsNameDiv>
-      <ArgsInputDiv id={'strategyArgsInputDiv' + blockId + id}>
+  if (strategy.args_input === undefined) {
+    return (
+      <StrategyDiv>
+        <StrategyName>
+          {strategyName}
+        </StrategyName>
+        <ArgsInputDiv id={'strategyArgsInputDiv' + blockId + id} display={'flex'}>
+          {strategyArgsName.map((argName, index) => {
+            return (
+              <div key={index}>
+                <StyledInput id={'strategy' + argName + 'Input' + blockId + id} placeholder={argName}/>
+              </div>
+            );
+          })}
+        </ArgsInputDiv>
+        <StyledSetConfirm src={check} id={'strategySetConfirm' + blockId + id} onClick={() => { handleArgsSettingEnd(); }} display={'block'}/>
+        <Trashbin src={trashbin} onClick={() => { handleDelete(); }} />
+      </StrategyDiv>
+    );
+  } else {
+    return (
+      <StrategyDiv>
+        <StrategyName>
+          {strategyName}
+        </StrategyName>
+        <ArgsNameDiv id={'strategyArgsNameDiv' + blockId + id}>
         {strategyArgsName.map((argName, index) => {
           return (
             <div key={index}>
-              <StyledInput id={'strategy' + argName + 'Input' + blockId + id} placeholder={argName}/>
+              <ArgsName id={'strategy' + argName + 'Label' + blockId + id} >
+                {strategy.args_input[index]}
+              </ArgsName>
             </div>
           );
         })}
-      </ArgsInputDiv>
-      <StyledSetConfirm src={check} id={'strategySetConfirm' + blockId + id} onClick={() => { handleArgsSettingEnd(); }} />
-      <ArgSettingButton src={setting} onClick={() => { handleArgsSettingStart(); }} id={'strategyArgSettingButton' + blockId + id}>
-      </ArgSettingButton >
-      <Trashbin src={trashbin} onClick={() => { handleDelete(); }} />
-    </StrategyDiv>
-  );
+        </ArgsNameDiv>
+        <ArgsInputDiv id={'strategyArgsInputDiv' + blockId + id} display={'none'}>
+          {strategyArgsName.map((argName, index) => {
+            return (
+              <div key={index}>
+                <StyledInput id={'strategy' + argName + 'Input' + blockId + id} placeholder={argName}/>
+              </div>
+            );
+          })}
+        </ArgsInputDiv>
+        <StyledSetConfirm src={check} id={'strategySetConfirm' + blockId + id} onClick={() => { handleArgsSettingEnd(); }} display={'none'}/>
+        <ArgSettingButton src={setting} onClick={() => { handleArgsSettingStart(); }} id={'strategyArgSettingButton' + blockId + id}>
+        </ArgSettingButton >
+        <Trashbin src={trashbin} onClick={() => { handleDelete(); }} />
+      </StrategyDiv>
+    );
+  }
 };
 
 export default StrategyInBoard;

@@ -42,7 +42,7 @@ height:20px;
 margin-right:20px;`;
 
 const ArgsInputDiv = styled.div`
-display:none;
+display:${props => props.display};
 justify-content:left;
 align-items:center;
 width:300px;
@@ -74,7 +74,7 @@ background-color:#DD5252;
 
 const StyledSetConfirm = styled.img`
 cursor:pointer;
-display:none;
+display:${props => props.display};
 width:20px;
 height:20px;
 margin-right:20px;`;
@@ -123,18 +123,25 @@ const MaskInBoard = ({ mask, id, blockId, boardMask, setBoardMask }) => {
     }
     setBoardMask(newBoardMask);
     // 畫面切換
-    const situationLabel = document.getElementById(`masksituationLabel${blockId}${id}`);
-    const thresholdLabel = document.getElementById(`maskthresholdLabel${blockId}${id}`);
-    const argsSettingButton = document.getElementById(`maskArgSettingButton${blockId}${id}`);
-    const argsInputBox = document.getElementById(`maskArgsInputDiv${blockId}${id}`);
-    const setConfrim = document.getElementById(`maskSetConfirm${blockId}${id}`);
-    const argsNameDiv = document.getElementById(`maskArgsNameDiv${blockId}${id}`);
-    situationLabel.style.display = 'block';
-    thresholdLabel.style.display = 'block';
-    argsSettingButton.style.display = 'block';
-    argsInputBox.style.display = 'none';
-    setConfrim.style.display = 'none';
-    argsNameDiv.style.display = 'flex';
+    if (document.getElementById(`maskArgsNameDiv${blockId}${id}`) === null) {
+      const argsInputBox = document.getElementById(`maskArgsInputDiv${blockId}${id}`);
+      const setConfrim = document.getElementById(`maskSetConfirm${blockId}${id}`);
+      argsInputBox.style.display = 'none';
+      setConfrim.style.display = 'none';
+    } else {
+      const situationLabel = document.getElementById(`masksituationLabel${blockId}${id}`);
+      const thresholdLabel = document.getElementById(`maskthresholdLabel${blockId}${id}`);
+      const argsSettingButton = document.getElementById(`maskArgSettingButton${blockId}${id}`);
+      const argsInputBox = document.getElementById(`maskArgsInputDiv${blockId}${id}`);
+      const setConfrim = document.getElementById(`maskSetConfirm${blockId}${id}`);
+      const argsNameDiv = document.getElementById(`maskArgsNameDiv${blockId}${id}`);
+      situationLabel.style.display = 'block';
+      thresholdLabel.style.display = 'block';
+      argsSettingButton.style.display = 'block';
+      argsInputBox.style.display = 'none';
+      setConfrim.style.display = 'none';
+      argsNameDiv.style.display = 'flex';
+    }
   };
   const handleDelete = () => {
     const newBoardMask = boardMask.map((item, index) => {
@@ -152,41 +159,54 @@ const MaskInBoard = ({ mask, id, blockId, boardMask, setBoardMask }) => {
     setBoardMask(newBoardMask);
   };
 
-  return (
-    <MaskDiv id={'MaskDiv' + blockId + id}>
-      <MaskName>
-        {maskName}
-      </MaskName>
-      <ArgsNameDiv id={'maskArgsNameDiv' + blockId + id}>
-        {maskArgsName.map((argName, index) => {
-          return (
-            (mask.args_input === undefined)
-              ? <div key={index}>
-              <ArgsName id={'mask' + argName + 'Label' + blockId + id} >
-                {argName}
-              </ArgsName>
-          </div>
-              : <div key={index}>
-              <ArgsName id={'mask' + argName + 'Label' + blockId + id} >
-                {mask.args_input[index]}
-              </ArgsName>
-            </div>
-          );
-        })}
-      </ArgsNameDiv>
-      <ArgsInputDiv id={'maskArgsInputDiv' + blockId + id}>
-        <StyledSelect id={'maskSituationSelect' + blockId + id}>
-          <option value="less than">less than </option>
-          <option value="greater than">greater than</option>
-        </StyledSelect>
-        <StyledInput id={'maskThresholdInput' + blockId + id} placeholder={maskName}/>
-      </ArgsInputDiv>
-      <StyledSetConfirm src={check} id={'maskSetConfirm' + blockId + id} onClick={() => { handleArgsSettingEnd(); }} />
-      <ArgSettingButton src={setting} onClick={() => { handleArgsSettingStart(); }} id={'maskArgSettingButton' + blockId + id}>
-      </ArgSettingButton >
-      <Trashbin src={trashbin} onClick={() => { handleDelete(); }}/>
-    </MaskDiv>
-  );
+  if (mask.args_input === undefined) {
+    return (
+      <MaskDiv id={'MaskDiv' + blockId + id}>
+        <MaskName>
+          {maskName}
+        </MaskName>
+        <ArgsInputDiv id={'maskArgsInputDiv' + blockId + id} display={'flex'}>
+          <StyledSelect id={'maskSituationSelect' + blockId + id}>
+            <option value="less than">less than </option>
+            <option value="greater than">greater than</option>
+          </StyledSelect>
+          <StyledInput id={'maskThresholdInput' + blockId + id} placeholder={maskName}/>
+        </ArgsInputDiv>
+        <StyledSetConfirm src={check} id={'maskSetConfirm' + blockId + id} onClick={() => { handleArgsSettingEnd(); }} display={'block'}/>
+        <Trashbin src={trashbin} onClick={() => { handleDelete(); }}/>
+      </MaskDiv>
+    );
+  } else {
+    return (
+      <MaskDiv id={'MaskDiv' + blockId + id}>
+        <MaskName>
+          {maskName}
+        </MaskName>
+        <ArgsNameDiv id={'maskArgsNameDiv' + blockId + id}>
+          {maskArgsName.map((argName, index) => {
+            return (
+              <div key={index}>
+                <ArgsName id={'mask' + argName + 'Label' + blockId + id} >
+                  {mask.args_input[index]}
+                </ArgsName>
+              </div>
+            );
+          })}
+        </ArgsNameDiv>
+        <ArgsInputDiv id={'maskArgsInputDiv' + blockId + id} display={'none'}>
+          <StyledSelect id={'maskSituationSelect' + blockId + id}>
+            <option value="less than">less than </option>
+            <option value="greater than">greater than</option>
+          </StyledSelect>
+          <StyledInput id={'maskThresholdInput' + blockId + id} placeholder={maskName}/>
+        </ArgsInputDiv>
+        <StyledSetConfirm src={check} id={'maskSetConfirm' + blockId + id} onClick={() => { handleArgsSettingEnd(); }} display={'none'}/>
+        <ArgSettingButton src={setting} onClick={() => { handleArgsSettingStart(); }} id={'maskArgSettingButton' + blockId + id}>
+        </ArgSettingButton >
+        <Trashbin src={trashbin} onClick={() => { handleDelete(); }}/>
+      </MaskDiv>
+    );
+  }
 };
 
 export default MaskInBoard;

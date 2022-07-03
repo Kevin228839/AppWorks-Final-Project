@@ -77,7 +77,7 @@ const Discussion = () => {
   };
 
   const handleScroll = (e) => {
-    if (window.innerHeight + e.target.documentElement.scrollTop + 1 >= e.target.documentElement.scrollHeight && nextPage !== null) {
+    if (window.innerHeight + e.target.documentElement.scrollTop + 5 >= e.target.documentElement.scrollHeight && nextPage !== null) {
       console.log('bottom');
       fetchData();
     }
