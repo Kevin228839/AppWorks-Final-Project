@@ -46,8 +46,12 @@ const Fundamental = () => {
   }, []);
   const handleChange = () => {
     const stockNumber = document.getElementById('input').value;
-    localStorage.setItem('StockBacktest', JSON.stringify(stockNumber));
-    window.location.href = '/fundamental';
+    if (stockNumber === '9999' || stockNumber === '2330' || stockNumber === '2303' || stockNumber === '2609') {
+      localStorage.setItem('StockBacktest', JSON.stringify(stockNumber));
+      window.location.href = '/fundamental';
+    } else {
+      alert('wrong input');
+    }
   };
   if (stock === null) {
     return <Load />;
