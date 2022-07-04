@@ -49,6 +49,7 @@ const Fundamental = () => {
     if (stockNumber === '9999' || stockNumber === '2330' || stockNumber === '2303' || stockNumber === '2609') {
       localStorage.setItem('StockBacktest', JSON.stringify(stockNumber));
       window.location.href = '/fundamental';
+      console.log(stockNumber);
     } else {
       alert('wrong input');
     }
